@@ -2,6 +2,8 @@ import React from 'react'
 import { useDispatch } from 'react-redux';
 import { ICity } from '../../../models';
 import { setCities } from '../../../redux/cities/actions';
+import { IReduxCitiesState } from '../../../redux/cities/models';
+import { saveState } from '../../../services';
 import CityComponentOptionsItem from '../CityComponentOptionsItem';
 
 interface CityComponentSelectionProps {
@@ -10,11 +12,15 @@ interface CityComponentSelectionProps {
 
 const CityComponentSelection: React.FC<CityComponentSelectionProps> = ({ list }) => {
   
-  const disatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handlerOption = (item: ICity) => {
     const newList = list.filter(el => el !== item);
-    disatch(setCities(newList))
+    const listToSave: IReduxCitiesState = {
+      list: newList
+    }
+    saveState('cities', listToSave)
+    dispatch(setCities(newList))
   }
 
   return (

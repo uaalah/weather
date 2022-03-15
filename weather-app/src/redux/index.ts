@@ -1,5 +1,6 @@
 import { combineReducers, compose, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { loadState } from '../services';
 import { IReduxCitiesState } from './cities/models';
 import citiesReducer from './cities/reducers';
 
@@ -19,8 +20,11 @@ export interface IState {
   cities: IReduxCitiesState;
 }
 
+const initialState: IState = loadState();
+
 const weatherStore = createStore(
   RootReducer,
+  initialState,
   composeWithDevTools()
 )
 
